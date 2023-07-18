@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import random
 import os
+import sys
 
 # Specify the path to your web driver executable
 # Download the appropriate web driver for your browser and OS
@@ -25,8 +26,15 @@ def get_video_files(directory):
             video_files.append(filename)
     return video_files
 
-DIRECTORY_PATH = "C:\\wd\\py\\vid.pepe\\"
-file_path = '../../credentials.txt'  # Replace with the correct relative path username,password list
+if len(sys.argv) < 3:
+    print("Please provide the DIRECTORY_PATH and file_path as command line arguments.")
+    sys.exit(1)
+
+DIRECTORY_PATH = sys.argv[1]
+file_path = sys.argv[2]
+
+print("DIRECTORY_PATH:", DIRECTORY_PATH)
+print("file_path:", file_path)
 
 credentials = read_credentials(file_path)
 

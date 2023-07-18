@@ -43,4 +43,8 @@ To join FrogDog's fantastic journey with Skynet, follow these steps:
 To unleash Skynet's powers and assist FrogDog, run the following command:
 
 ```python
-python py/T1000.py
+Windows 
+python T1000.py "C:\\wd\\py\\vid.pepe\\" "../../credentials.txt"
+
+Linux 
+python3 T1000.py "../../vid.pepe/" "../../credentials.txt"
