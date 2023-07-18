@@ -79,79 +79,87 @@ print("DIRECTORY_PATH:", DIRECTORY_PATH)
 print("file_path:", file_path)
 
 credentials = read_credentials(file_path)
+while True:
+    try:
+        for username, password in credentials:
+            # Your code logic goes here
+            # You can perform any operations using the username and password variables
+                print(f"Username: {username} - Password: {password}")
+                driver = webdriver.Chrome()  # Change to webdriver.Firefox() if using Firefox
+            try:
+                # Open Twitter
+                driver.get("https://twitter.com")
 
-for username, password in credentials:
-    # Your code logic goes here
-    # You can perform any operations using the username and password variables
-    print(f"Username: {username} - Password: {password}")
+                # Wait until the page is loaded
+                wait = WebDriverWait(driver, 10)
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "body")))
+                time.sleep(2)
+                # Find and click the "Sign in" button
+                login_element = driver.find_element(By.XPATH, "//span[contains(text(), 'Sign in')]")
+                login_element.click()
 
-    driver = webdriver.Chrome()  # Change to webdriver.Firefox() if using Firefox
+                # Introduce a random delay between actions (e.g., 2 to 5 seconds)
+                delay = random.randint(2000, 5000) / 1000.0
+                time.sleep(delay)
 
-    # Open Twitter
-    driver.get("https://twitter.com")
+                # Find the username input field and enter the username
+                username_input = driver.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
+                username_input.send_keys(username)
+                time.sleep(2)
+                # Find and click the "Next" button
+                next_element = driver.find_element(By.XPATH, "//span[contains(text(), 'Next')]")
+                next_element.click()
+                time.sleep(2)
+                # Find the password input field and enter the password
+                password_input = driver.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
+                password_input.send_keys(password)
+                time.sleep(1)    
 
-    # Wait until the page is loaded
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "body")))
-    time.sleep(2)
-    # Find and click the "Sign in" button
-    login_element = driver.find_element(By.XPATH, "//span[contains(text(), 'Sign in')]")
-    login_element.click()
+                for i in range(3):
+                    driver.switch_to.active_element.send_keys(Keys.TAB)
 
-    # Introduce a random delay between actions (e.g., 2 to 5 seconds)
-    delay = random.randint(2000, 5000) / 1000.0
-    time.sleep(delay)
+                # Simulate pressing Enter key on the active element
+                driver.switch_to.active_element.send_keys(Keys.ENTER)
+                time.sleep(2)
+                tweet_button = driver.find_element(By.CSS_SELECTOR, "a[data-testid='SideNav_NewTweet_Button']")
+                tweet_button.click()
 
-    # Find the username input field and enter the username
-    username_input = driver.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
-    username_input.send_keys(username)
-    time.sleep(2)
-    # Find and click the "Next" button
-    next_element = driver.find_element(By.XPATH, "//span[contains(text(), 'Next')]")
-    next_element.click()
-    time.sleep(2)
-    # Find the password input field and enter the password
-    password_input = driver.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
-    password_input.send_keys(password)
-    time.sleep(1)    
+                time.sleep(2)  # Wait until the tweet box is shown
+                
+                tweet_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[data-testid='SideNav_NewTweet_Button']")))
 
-    for i in range(3):
-        driver.switch_to.active_element.send_keys(Keys.TAB)
+                video_files = get_video_files(DIRECTORY_PATH)
 
-    # Simulate pressing Enter key on the active element
-    driver.switch_to.active_element.send_keys(Keys.ENTER)
-    time.sleep(2)
-    tweet_button = driver.find_element(By.CSS_SELECTOR, "a[data-testid='SideNav_NewTweet_Button']")
-    tweet_button.click()
+                if video_files:
+                    random_video_file = random.choice(video_files)
+                    print("Random video file:", os.path.abspath(os.path.join(DIRECTORY_PATH, random_video_file)))
+                    file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
+                    file_input.send_keys(os.path.abspath(os.path.join(DIRECTORY_PATH, random_video_file)))
+                else:
+                    print("No video files found in the directory:", DIRECTORY_PATH)
 
-    time.sleep(2)  # Wait until the tweet box is shown
-    
-    tweet_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[data-testid='SideNav_NewTweet_Button']")))
+                time.sleep(69)  # Sleep for 179 seconds
 
-    video_files = get_video_files(DIRECTORY_PATH)
+                tweet_box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Tweet text']")))
+                tweet_box.send_keys(get_tweet(human_input))
 
-    if video_files:
-        random_video_file = random.choice(video_files)
-        print("Random video file:", os.path.abspath(os.path.join(DIRECTORY_PATH, random_video_file)))
-        file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
-        file_input.send_keys(os.path.abspath(os.path.join(DIRECTORY_PATH, random_video_file)))
-    else:
-        print("No video files found in the directory:", DIRECTORY_PATH)
+                # Wait for the tweet to be ready to send
+                time.sleep(2)
 
-    time.sleep(69)  # Sleep for 179 seconds
+                # Find the tweet button and click it
+                tweet_button = driver.find_element(By.XPATH, "//*[contains(text(),'Tweet')]")
+                driver.execute_script("arguments[0].scrollIntoView();", tweet_button)
+                driver.execute_script("arguments[0].click();", tweet_button)
 
-    tweet_box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Tweet text']")))
-    tweet_box.send_keys(get_tweet(human_input))
+                print("---------------------------------------------------------------------------")
+                time.sleep(21.1)
+                # Close the browser
+                driver.quit()
+            except Exception as e:
+                driver.quit()
+                print("An error occurred:", str(e))    
 
-    # Wait for the tweet to be ready to send
-    time.sleep(2)
-
-    # Find the tweet button and click it
-    tweet_button = driver.find_element(By.XPATH, "//*[contains(text(),'Tweet')]")
-    driver.execute_script("arguments[0].scrollIntoView();", tweet_button)
-    driver.execute_script("arguments[0].click();", tweet_button)
-
-    print("---------------------------------------------------------------------------")
-    time.sleep(21.1)
-    # Close the browser
-    driver.quit()
+        
+        time.sleep(500)        
+    except Exception as e:
+        print("An error occurred:", str(e))
