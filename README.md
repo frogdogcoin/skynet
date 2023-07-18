@@ -3,6 +3,12 @@
 #                The Ultimate FrogDog Assistant Toolkit               #
 ######################################################################
 
+Blockchain: Ethereum
+
+CA: 0x3cda61b56278842876e7fdd56123d83dbafae16c
+
+Etherscan: https://etherscan.io/token/0x3cda61b56278842876e7fdd56123d83dbafae16c
+
 -------------------------------------------------------------
                        Introducing FrogDog!
 -------------------------------------------------------------
