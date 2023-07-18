@@ -7,10 +7,27 @@ import time
 import random
 import os
 import sys
+import openai
 
 # Specify the path to your web driver executable
 # Download the appropriate web driver for your browser and OS
 # Create a new instance of the browser driver
+def get_tweet(human_input):
+    human = human_input
+
+    response = openai.Completion.create(
+    model="text-davinci-003",
+    prompt="The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: "+ human +" \nAI:",
+    temperature=0.9,
+    max_tokens=2000,
+    top_p=1,
+    frequency_penalty=0.0,
+    presence_penalty=0.6,
+    stop=[" Human:", " AI:"]
+    )
+    titles = response.choices[0].text 
+    return titles
+
 def read_credentials(file_path):
     credentials = []
     with open(file_path, 'r') as file:
@@ -26,12 +43,37 @@ def get_video_files(directory):
             video_files.append(filename)
     return video_files
 
-if len(sys.argv) < 3:
-    print("Please provide the DIRECTORY_PATH and file_path as command line arguments.")
-    sys.exit(1)
 
-DIRECTORY_PATH = sys.argv[1]
-file_path = sys.argv[2]
+
+if os.getenv("OPENAI_API_KEY"):
+    if len(sys.argv) < 4:
+        print("Please provide the DIRECTORY_PATH, file_path, human input, and OpenAI key as command line arguments.")
+        sys.exit(1)
+    DIRECTORY_PATH = sys.argv[1]
+    file_path = sys.argv[2]
+    human_input = sys.argv[3]
+    api_key = os.getenv("OPENAI_API_KEY")    
+
+else:
+    if len(sys.argv) < 5:
+        print("Please provide the DIRECTORY_PATH, file_path, and human input as command line arguments.")
+        sys.exit(1)
+    DIRECTORY_PATH = sys.argv[1]
+    file_path = sys.argv[2]
+    human_input = sys.argv[4]
+    api_key = sys.argv[3]
+
+
+# Check if API key is empty
+if not api_key:
+    # Check if API key is provided as a command-line argument
+    if len(sys.argv) < 5:
+        print("Error: API key not provided.")
+        sys.exit(1)
+    api_key = sys.argv[3]
+
+openai.api_key = api_key
+
 
 print("DIRECTORY_PATH:", DIRECTORY_PATH)
 print("file_path:", file_path)
@@ -99,7 +141,7 @@ for username, password in credentials:
     time.sleep(69)  # Sleep for 179 seconds
 
     tweet_box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Tweet text']")))
-    tweet_box.send_keys("Frogdogcoin is on github ")
+    tweet_box.send_keys(get_tweet(human_input))
 
     # Wait for the tweet to be ready to send
     time.sleep(2)
