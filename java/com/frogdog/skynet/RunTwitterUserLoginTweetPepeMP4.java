@@ -1,3 +1,4 @@
+package com.frogdog.skynet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -116,7 +117,7 @@ public class RunTwitterUserLoginTweetPepeMP4 {
 							                System.out.println("No video files found in the directory: " + DIRECTORY_PATH);
 							            }
 
-							            Thread.sleep(79000);
+							            Thread.sleep(179000);
 							           
 							            // Enter your tweet
 							            String tweet = new String(); 
@@ -164,7 +165,7 @@ public class RunTwitterUserLoginTweetPepeMP4 {
 							            jsExecutor.executeScript("arguments[0].focus();", replyElement);
 							            jsExecutor.executeScript("arguments[0].click();", replyElement);
 							            System.out.println("---------------------------------------------------------------------------");
-							            Thread.sleep(11100);
+							            Thread.sleep(21100);
 		
 								        // Simulate pressing Enter key on the active element
 //								        driver.switchTo().activeElement().sendKeys(Keys.ENTER);							        

@@ -8,8 +8,19 @@ import time
 import uuid
 import random
 
-#will updaate code to read key from file stored localy
-openai.api_key = "<ENTER KEY HERE>"
+# Read API key from environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+
+# Check if API key is empty
+if not api_key:
+    # Check if API key is provided as a command-line argument
+    if len(sys.argv) < 3:
+        print("Error: API key not provided.")
+        sys.exit(1)
+    api_key = sys.argv[2]
+
+openai.api_key = api_key
+
 topic = sys.argv[1]
 human = topic.replace("_", " ")
 
@@ -24,8 +35,6 @@ response = openai.Completion.create(
   stop=[" Human:", " AI:"]
 )
 
-titles = response.choices[0].text
-
-#print(titles)
+titles = response.choices[0].text 
 
 print(titles)
