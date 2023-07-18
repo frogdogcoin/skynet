@@ -9,6 +9,7 @@ import os
 import sys
 import openai
 
+
 # Specify the path to your web driver executable
 # Download the appropriate web driver for your browser and OS
 # Create a new instance of the browser driver
