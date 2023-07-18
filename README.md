@@ -44,7 +44,7 @@ To unleash Skynet's powers and assist FrogDog, run the following command:
 
 ```python
 Windows 
-python T1000.py "C:\\wd\\py\\vid.pepe\\" "../../credentials.txt"
+python T1.py "C:\\wd\\py\\vid.pepe\\" "../../credentials.txt"
 
 Linux 
-python3 T1000.py "../../vid.pepe/" "../../credentials.txt"
+python3 T1.py "../../vid.pepe/" "../../credentials.txt"
