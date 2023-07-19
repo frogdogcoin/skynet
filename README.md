@@ -51,6 +51,7 @@ To unleash Skynet's powers and assist FrogDog, run the following command:
 ```python
 Windows 
 python T1.py "C:\\wd\\py\\vid.pepe\\" "../../credentials.txt"
+python T1.py "C:\\wd\\py\\vid.pepe\\" "../credentials.txt" "<OPEN_AI_PRIVATE_KEY>" "say something intresting in a tweet about Frogdog coin and add following link https://www.dextools.io/app/en/ether/pair-explorer/0x5dc653d6d0f10cf748f498015a8e11710dcb7db0 in tweet"
 
 Linux 
 python3 T1.py "../../vid.pepe/" "../../credentials.txt"

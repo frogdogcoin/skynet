@@ -85,8 +85,8 @@ while True:
         for username, password in credentials:
             # Your code logic goes here
             # You can perform any operations using the username and password variables
-                print(f"Username: {username} - Password: {password}")
-                driver = webdriver.Chrome()  # Change to webdriver.Firefox() if using Firefox
+            print(f"Username: {username} - Password: {password}")
+            driver = webdriver.Chrome()  # Change to webdriver.Firefox() if using Firefox
             try:
                 # Open Twitter
                 driver.get("https://twitter.com")
@@ -139,7 +139,7 @@ while True:
                 else:
                     print("No video files found in the directory:", DIRECTORY_PATH)
 
-                time.sleep(69)  # Sleep for 179 seconds
+                time.sleep(19)  # Sleep for 179 seconds
 
                 tweet_box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Tweet text']")))
                 tweet_box.send_keys(get_tweet(human_input))
@@ -161,6 +161,6 @@ while True:
                 print("An error occurred:", str(e))    
 
         
-        time.sleep(500)        
+        time.sleep(160)        
     except Exception as e:
         print("An error occurred:", str(e))
