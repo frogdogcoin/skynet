@@ -44,43 +44,9 @@ def get_video_files(directory):
             video_files.append(filename)
     return video_files
 
-
-
-if os.getenv("OPENAI_API_KEY"):
-    if len(sys.argv) < 4:
-        print("Please provide the DIRECTORY_PATH, file_path, human input, and OpenAI key as command line arguments.")
-        sys.exit(1)
-    DIRECTORY_PATH = sys.argv[1]
-    file_path = sys.argv[2]
-    human_input = sys.argv[3]
-    api_key = os.getenv("OPENAI_API_KEY")    
-
-else:
-    if len(sys.argv) < 5:
-        print("Please provide the DIRECTORY_PATH, file_path, and human input as command line arguments.")
-        sys.exit(1)
-    DIRECTORY_PATH = sys.argv[1]
-    file_path = sys.argv[2]
-    human_input = sys.argv[4]
-    api_key = sys.argv[3]
-
-
-# Check if API key is empty
-if not api_key:
-    # Check if API key is provided as a command-line argument
-    if len(sys.argv) < 5:
-        print("Error: API key not provided.")
-        sys.exit(1)
-    api_key = sys.argv[3]
-
-openai.api_key = api_key
-
-
-print("DIRECTORY_PATH:", DIRECTORY_PATH)
-print("file_path:", file_path)
-
-credentials = read_credentials(file_path)
-while True:
+def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key): 
+    credentials = read_credentials(file_path)    
+    openai.api_key = api_key
     try:
         for username, password in credentials:
             # Your code logic goes here
@@ -153,7 +119,7 @@ while True:
                 driver.execute_script("arguments[0].click();", tweet_button)
 
                 print("---------------------------------------------------------------------------")
-                time.sleep(21.1)
+                time.sleep(61.1)
                 # Close the browser
                 driver.quit()
             except Exception as e:
@@ -164,3 +130,5 @@ while True:
         time.sleep(160)        
     except Exception as e:
         print("An error occurred:", str(e))
+
+
