@@ -1,7 +1,7 @@
 import os
 import time
 import json
-import sys 
+import sys
 import T1
 
 print(str(len(sys.argv)))
@@ -14,7 +14,7 @@ if os.getenv("OPENAI_API_KEY"):
         sys.exit(1)
     DIRECTORY_PATH_MEDIA = sys.argv[1]
     file_path_credentials = sys.argv[2]
-    api_key = os.getenv("OPENAI_API_KEY")    
+    api_key = os.getenv("OPENAI_API_KEY")
 
 else:
     if len(sys.argv) < 3:
@@ -58,13 +58,13 @@ def parse_json_file(file_path, file_path_credentials, DIRECTORY_PATH_MEDIA, api_
             array = [value, str(signature_verification_result), str(balance_of)]
             human_input = value
             T1.t_send_message(file_path_credentials, DIRECTORY_PATH_MEDIA, human_input, api_key)
-            
+
             with open(new_file_path, 'w') as new_file:
                 new_file.write(file_content)
 
     except Exception as e:
         print(e)
- 
+
 while True:
     try:
         for json_file in os.listdir(directory_path):
@@ -76,8 +76,8 @@ while True:
 
                 if not os.path.exists(other_file):
                     parse_json_file(file_path, file_path_credentials, DIRECTORY_PATH_MEDIA, api_key)
-        
+
         time.sleep(0.5)
-    
+
     except Exception as e:
         print(e)

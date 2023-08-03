@@ -26,7 +26,7 @@ def get_tweet(human_input):
     presence_penalty=0.6,
     stop=[" Human:", " AI:"]
     )
-    titles = response.choices[0].text 
+    titles = response.choices[0].text
     return titles
 
 def read_credentials(file_path):
@@ -44,8 +44,8 @@ def get_video_files(directory):
             video_files.append(filename)
     return video_files
 
-def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key): 
-    credentials = read_credentials(file_path)    
+def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key):
+    credentials = read_credentials(file_path)
     openai.api_key = api_key
     try:
         for username, password in credentials:
@@ -80,7 +80,7 @@ def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key):
                 # Find the password input field and enter the password
                 password_input = driver.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
                 password_input.send_keys(password)
-                time.sleep(1)    
+                time.sleep(1)
 
                 for i in range(3):
                     driver.switch_to.active_element.send_keys(Keys.TAB)
@@ -92,7 +92,7 @@ def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key):
                 tweet_button.click()
 
                 time.sleep(2)  # Wait until the tweet box is shown
-                
+
                 tweet_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[data-testid='SideNav_NewTweet_Button']")))
 
                 video_files = get_video_files(DIRECTORY_PATH)
@@ -114,7 +114,7 @@ def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key):
                 time.sleep(2)
 
                 # Find the tweet button and click it
-                tweet_button = driver.find_element(By.XPATH, "//*[contains(text(),'Tweet')]")
+                tweet_button = driver.find_element(By.XPATH, "//*[contains(text(),'Post')]")
                 driver.execute_script("arguments[0].scrollIntoView();", tweet_button)
                 driver.execute_script("arguments[0].click();", tweet_button)
 
@@ -124,11 +124,9 @@ def t_send_message(file_path, DIRECTORY_PATH, human_input, api_key):
                 driver.quit()
             except Exception as e:
                 driver.quit()
-                print("An error occurred:", str(e))    
+                print("An error occurred:", str(e))
 
-        
-        time.sleep(160)        
+
+        time.sleep(160)
     except Exception as e:
         print("An error occurred:", str(e))
-
-
